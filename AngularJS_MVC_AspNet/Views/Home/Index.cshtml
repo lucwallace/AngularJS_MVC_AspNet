@@ -1,0 +1,154 @@
+﻿<div class="container" ng-controller="user-controller">
+    <div class="panel-body">
+        <button type="button" class="btn btn-info" data-target="#addUser" data-toggle="modal" id="btnSalvar">Adicionar usuário</button>
+    </div>
+    <br />
+    <div id="titulo">
+        <h3 id="titleList">Lista de Usuários</h3>
+    </div>
+    <table class="table table-bordered" id="tabelaUser">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+            <tr>
+                <th><input type="text" class="form-control" name="id" ng-model="Id" placeholder="Busca por id" ng-required="true"></th>
+                <th align="center"><input type="text" class="form-control" name="nome" ng-model="Nome" placeholder="Busca por nome" ng-required="true"></th>
+                <th><input type="text" class="form-control" name="telefone" ng-model="Telefone" placeholder="Busca por telefone" ng-required="true"></th>
+                <th><input type="text" class="form-control" name="email" ng-model="Email" placeholder="Busca por email" ng-required="true"></th>
+                <th>
+                    <a href="#" class="btn btn-info" id="btnPdf" onclick="exportPDF()"><i class="fa fa-file-pdf-o"></i></a>
+                    <a href="#" class="btn btn-info" id="btnExcel" onclick="exportExcel('tabela', 'Lista de usuário')"><i class="fa fa-file-excel-o"></i></a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in Users | filter : Id | filter : Nome | filter : Telefone | filter : Email">
+                <td>{{user.Id}}</td>
+                <td>{{user.Nome}}</td>
+                <td>{{user.Telefone}}</td>
+                <td>{{user.Email}}</td>
+                <td>
+                    <a href="#" class="btn btn-info" data-toggle="modal" data-target="#updateModal" id="updateMo" ng-click="getUpdate(user)"><i class="fa fa-edit"></i></a>
+                    <a href="#" class="btn btn-danger" id="btnDelete" data-toggle="modal" data-target="#deletar" ng-click="getDelete(user)"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered" id="tabela" style="display:none;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in Users">
+                <td>{{user.Id}}</td>
+                <td>{{user.Nome}}</td>
+                <td>{{user.Telefone}}</td>
+                <td>{{user.Email}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Adicionar Usuário</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="AddNewForm">
+                        <div class="form-group">
+                            <input type="hidden" readonly="readonly" name="id" ng-model="Id" placeholder="Id">
+                        </div>
+                        <div class="form-group" show-errors="{ showSuccess: true }">
+                            <label for="nome">Nome:</label>
+                            <input type="text" class="form-control" name="nome" ng-model="Nome" placeholder="Nome" ng-required="true">
+                        </div>
+                        <div class="form-group" show-errors="{ showSuccess: true }">
+                            <label for="telefone">Telefone:</label>
+                            <input type="text" class="form-control" name="telefone" ng-model="Telefone" placeholder="Telefone" ng-required="true">
+                        </div>
+                        <div class="form-group" show-errors="{ showSuccess: true }">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control" name="email" ng-model="Email" placeholder="Email" ng-required="true">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btnCreate" ng-click="create()">Salvar usuário</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Atualizar Usuário</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="UpdateForm">
+                        <div class="form-group">
+                            <input type="hidden" readonly="readonly" name="id" ng-model="UserId" placeholder="Id">
+                        </div>
+                        <div class="form-group" show-errors="{ showSuccess: true }">
+                            <label for="nome">Nome:</label>
+                            <input type="text" class="form-control" name="nome" ng-model="UserNome" placeholder="Nome" ng-required="true">
+                        </div>
+                        <div class="form-group" show-errors="{ showSuccess: true }">
+                            <label for="telefone">Telefone:</label>
+                            <input type="text" class="form-control" name="telefone" ng-model="UserTelefone" placeholder="Telefone" ng-required="true">
+                        </div>
+                        <div class="form-group" show-errors="{ showSuccess: true }">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control" name="email" ng-model="UserEmail" placeholder="Email" ng-required="true">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btnUpdate" ng-click="update()">Atualizar usuário</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deletar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Por favor confirmar!</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>Você realmente desejar excluir esse usuário?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btnDelete" ng-click="delete()">Deletar usuário</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/User/Module.js"></script>
+    <script src="~/Scripts/showErrors.min.js"></script>
+    <script src="~/Scripts/User/Service.js"></script>
+    <script src="~/Scripts/User/Controller.js"></script>
+    <script src="~/Scripts/libs/jspdf.debug.js"></script>
+    <script src="~/Scripts/dist/jspdf.plugin.autotable.js"></script>
+    <script src="~/Scripts/exportPdf.js"></script>
+    <script src="~/Scripts/exportExcel.js"></script>
+}

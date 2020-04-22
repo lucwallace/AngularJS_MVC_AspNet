@@ -1,0 +1,40 @@
+﻿#btnSalvar {
+    background-color: #4682B4;
+}
+#titulo {
+    background-color: #4682B4;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    color: #F5F5F5;
+}
+#titleList {
+    margin-left: 10px;
+}
+#tabelaUser {
+    background-color: #F5F5F5;
+}
+#updateMo {
+    background-color: #4682B4;
+}
+.modal-body {
+    margin-left: 20px;
+}
+#btnCreate {
+    background-color: #4682B4;
+}
+.modal-header {
+    background-color: #4682B4;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+#btnUpdate {
+    background-color: #4682B4;
+}
+#btnPdf{
+    background-color: #B22222;
+}
+#btnExcel{
+    background-color: #2E8B57
+}
